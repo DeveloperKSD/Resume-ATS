@@ -79,7 +79,7 @@ To build and run the application inside a lightweight container:
 
 2. **Run the Docker Container**:
    ```bash
-   docker run -d -p 8501:8501 --name resume-ats-container resume-ats
+   docker run -d -p 8501:8501 resume-ats
    ```
 
 3. **Access the Application**:
