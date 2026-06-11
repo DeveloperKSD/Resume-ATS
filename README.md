@@ -8,25 +8,12 @@
 
 
 
-[![demo](https://img.shields.io/badge/demo-live-black?style=flat-square&logo=streamlit&logoColor=FF4B4B)](https://resume-ats-ksd.streamlit.app/)
-
 
 
 <div align="center">
   <a href="https://resume-ats-ksd.streamlit.app/">
     <img src="https://img.shields.io/badge/▶ Launch App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white"/>
   </a>
-</div>
-
-<div align="center">
-  <h2>🖥️ Resume ATS Scanner</h2>
-  <a href="https://resume-ats-ksd.streamlit.app/">
-    <img src="https://img.shields.io/badge/Live Demo-Open App →-FF4B4B?style=for-the-badge&logo=streamlit"/>
-  </a>
-  <br/><br/>
-  <img src="https://img.shields.io/badge/Status-Online-brightgreen?style=flat-square"/>
-  <img src="https://img.shields.io/badge/Host-Streamlit Cloud-FF4B4B?style=flat-square&logo=streamlit"/>
-  <img src="https://img.shields.io/badge/Docker-Ready-2496ED?style=flat-square&logo=docker"/>
 </div>
 
 
