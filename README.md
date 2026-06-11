@@ -1,10 +1,6 @@
-<details>
-<summary><b>📟 Click to expand SYSTEM_INITIALIZATION_LOG.TXT</b></summary>
-
-```bash
-# Core deployment outputs are safely tucked inside here!
-pip install -r requirements.txt
-python app.py
+<div align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=26&pause=1000&color=00FF00&background=020208&center=true&vCenter=true&width=500&height=60&lines=INITIALIZING+ATS_WORKSPACE_PRO...;COMPILING+VECTOR_REGISTERS...;SYSTEM+READY+v2.16" alt="Typing SVG" />
+</div>
 
 # ATS Resume Scanner – Simple Overview
 
