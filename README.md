@@ -1,10 +1,6 @@
-```text
-[TASK: VERIFICATION PIPELINE COMPILATION]
-0% 💻 [--------------------------------────────] LOADING REGS
-35% 🔋 [██████████████--------------------------] BUFFERING PARSER
-70% ⚡ [████████████████████████████------------] HEURISTICS ACTIVE
-100% ✨ [████████████████████████████████████████] COMPILE SUCCESSFUL v2.16
-```
+<div align="center">
+  <img src="https://github-readme-stats.vercel.app/api/pin/?username=your-username&repo=Resume-ATS&theme=matrix&hide_border=false" alt="Retro Repository Stats" />
+</div>
 
 # ATS Resume Scanner – Simple Overview
 
