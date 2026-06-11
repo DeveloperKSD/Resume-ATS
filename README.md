@@ -4,6 +4,7 @@
 35% 🔋 [██████████████--------------------------] BUFFERING PARSER
 70% ⚡ [████████████████████████████------------] HEURISTICS ACTIVE
 100% ✨ [████████████████████████████████████████] COMPILE SUCCESSFUL v2.16
+```
 
 # ATS Resume Scanner – Simple Overview
 
