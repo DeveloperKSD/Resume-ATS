@@ -64,7 +64,6 @@ def bar_chart(score_vector: np.ndarray):
     return _output_bytes(fig)
 
 def radar_chart(score_vector: np.ndarray):
-    # Fallback to horizontal bar structure to mimic database readouts
     fig, ax = plt.subplots(figsize=(5, 3.8))
     _retro_engine(fig, ax)
     ax.barh(LABELS, score_vector, color=COLORS, edgecolor=TEXT, linewidth=2, zorder=3)
@@ -77,11 +76,9 @@ def gauge_chart(score: float):
     ax.set_facecolor(BG)
     ax.axis('off')
     
-    # Render vintage segmented square gauge
     ax.fill_between([0, 1], [0, 0], [1, 1], color=MUTED, zorder=1)
     ax.fill_between([0.05, 0.95], [0.05, 0.05], [0.95, 0.95], color=PANEL, zorder=2)
     
-    # Fill proportion
     fill_height = 0.05 + (0.90 * (score / 100.0))
     ax.fill_between([0.05, 0.95], [0.05, 0.05], [fill_height, fill_height], color=ACCENT, zorder=3)
     
@@ -94,7 +91,7 @@ def score_donut(score_vector: np.ndarray):
     ax.set_facecolor(BG)
     
     wedges, texts = ax.pie(
-        score_vector + 0.1, # non-zero guard
+        score_vector + 0.1,
         colors=COLORS,
         startangle=90,
         wedgeprops=dict(width=0.4, edgecolor=TEXT, linewidth=2)
@@ -109,7 +106,6 @@ def keyword_heatmap(matched_keywords, resume_text, job_text, top_n=15):
     fig.patch.set_facecolor(BG)
     ax.set_facecolor(PANEL)
     ax.axis('off')
-    # Text placeholder box matching win95 dialog fields
     ax.text(0.5, 0.5, f"Matrix Tokens Verified:\n{len(matched_keywords)} Core System Keys Active", 
             ha='center', va='center', color=TEXT, fontname='Arial', weight='bold', bbox=dict(facecolor=YELLOW, edgecolor=TEXT, boxstyle='square,pad=1'))
     return _output_bytes(fig)
