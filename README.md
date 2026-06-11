@@ -1,3 +1,5 @@
+📥 SYSTEM CONNECTIONS: ![Hits](https://count.getloli.com/get/@your-username?theme=rule34)
+
 # ATS Resume Scanner – Simple Overview
 
 ## What is this?
