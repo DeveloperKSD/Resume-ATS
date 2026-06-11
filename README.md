@@ -10,6 +10,12 @@
   <img src="https://komarev.com/ghpvc/?username=DeveloperKSD&color=green&style=flat-square&label=TERMINAL+PINGS" alt="System Connection Meter" />
 </div>
 
+## 🚀 Try It Live
+
+[![Live Demo](https://img.shields.io/badge/🌐_LIVE_DEMO-Click_Here-00ff00?style=for-the-badge&labelColor=000000)](https://resume-ats-ksd.streamlit.app/)
+[![Status](https://img.shields.io/badge/STATUS-ONLINE-brightgreen?style=for-the-badge&logo=streamlit)](https://resume-ats-ksd.streamlit.app/)
+[![Hosted on](https://img.shields.io/badge/Hosted_on-Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io)
+
 # ATS Resume Scanner – Simple Overview
 
 ## What is this?
