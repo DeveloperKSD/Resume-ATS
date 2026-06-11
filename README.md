@@ -6,16 +6,11 @@
 
 </div>
 
-<div align="center">
-  <img src="https://komarev.com/ghpvc/?username=DeveloperKSD&color=green&style=flat-square&label=TERMINAL+PINGS" alt="System Connection Meter" />
-</div>
+
 
 [![demo](https://img.shields.io/badge/demo-live-black?style=flat-square&logo=streamlit&logoColor=FF4B4B)](https://resume-ats-ksd.streamlit.app/)
 
 
-[![Open App](https://img.shields.io/badge/Open_App-▶_Launch-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://resume-ats-ksd.streamlit.app/)
-[![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white)]()
-[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)]()
 
 <div align="center">
   <a href="https://resume-ats-ksd.streamlit.app/">
