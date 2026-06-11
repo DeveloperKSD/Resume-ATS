@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github-readme-stats.vercel.app/api/pin/?username=your-username&repo=Resume-ATS&theme=matrix&hide_border=false" alt="Retro Repository Stats" />
+  <img src="https://github-readme-stats.vercel.app/api/pin/?username=DeveloperKSD&repo=Resume-ATS&theme=matrix&hide_border=false" alt="Retro Repository Stats" />
 </div>
 
 # ATS Resume Scanner – Simple Overview
