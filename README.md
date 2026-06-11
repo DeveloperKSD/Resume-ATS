@@ -1,9 +1,9 @@
 <div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=DeveloperKSD&show_icons=true&theme=matrix&hide_border=false&include_all_commits=true" alt="Matrix System Stats Console" />
-  
-  <br/>
-  
-  <img src="https://github-readme-stats.vercel.app/api/pin/?username=DeveloperKSD&repo=Resume-ATS&theme=matrix&hide_border=false" alt="Retro Repository Register Pin" />
+
+[![Core Language](https://img.shields.io/badge/RUN_ENGINE-PYTHON_3.11-00FF00?style=for-the-badge&logo=python&logoColor=00FF00&labelColor=000&color=00FF00)](https://www.python.org/)
+[![Container Sandbox](https://img.shields.io/badge/SANDBOX-DOCKER_CONTAINER-00FFFF?style=for-the-badge&logo=docker&logoColor=00FFFF&labelColor=000&color=00FFFF)](https://www.docker.com/)
+[![UI Module Engine](https://img.shields.io/badge/INTERFACE-STREAMLIT_SHELL-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=FF4B4B&labelColor=000&color=FF4B4B)](https://streamlit.io/)
+
 </div>
 
 # ATS Resume Scanner – Simple Overview
