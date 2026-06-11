@@ -7,7 +7,7 @@
 </div>
 
 <div align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=DeveloperKSD&repo=Resume-ATS&theme=matrix&bg_color=020208&color=00FF00&line=00FF00&point=FFFFFF&area=true&hide_border=false" width="100%" alt="Pipeline Activity Waveform" />
+  <img src="https://komarev.com/ghpvc/?username=DeveloperKSD&color=green&style=flat-square&label=TERMINAL+PINGS" alt="System Connection Meter" />
 </div>
 
 # ATS Resume Scanner – Simple Overview
