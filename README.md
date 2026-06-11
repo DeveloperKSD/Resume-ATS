@@ -11,7 +11,7 @@ This is a **Streamlit web app** that lets you upload your resume (PDF) and a job
 - **Readability & numbers** – measures how readable the resume is and whether it contains quantifiable metrics.
 - **Visual dashboards** – bar chart, radar chart and gauge chart (made with **matplotlib**) show the breakdown of scores.
 - **Improvement tips** – suggestions on missing keywords, skills or sections to improve your resume.
-- **Retro Windows 95 UI mode** – optional fun UI that mimics an old Windows 95 desktop.
+- **Retro Windows 95 UI mode** – optional fun UI that mimics an old Windows 95 desktop.
 
 ## How does it work?
 1. Upload a **resume PDF** and a **job description PDF**.
@@ -22,9 +22,9 @@ This is a **Streamlit web app** that lets you upload your resume (PDF) and a job
    - Skill overlap (25 pts) ✅
    - Cosine similarity (20 pts) ✅
    - TF‑IDF relevance (10 pts) ✅
-   - Presence of common sections (10 pts) ✅
-5. The scores are summed to a total out of 100 and displayed with graphics.
-6. A short report is generated with the overall verdict, detailed tables, and actionable tips.
+   - Section presence (10 pts) ✅
+5. Scores are summed to a total out of 100 and displayed with graphics.
+6. A short report and actionable improvement tips are shown.
 
 ## Tech Stack
 | Component | Library / Tool | Purpose |
@@ -35,14 +35,18 @@ This is a **Streamlit web app** that lets you upload your resume (PDF) and a job
 | Data handling | **pandas**, **numpy** | Build tables, maths |
 | Charts | **matplotlib** | Bar, radar, gauge, donut charts |
 | Containerisation | **Docker** | Run the app anywhere |
-| Optional extras | **python‑docx** (for future DOCX support) | Document handling |
+| Optional extras | **python‑docx** | Future DOCX support |
 
-## Quick Start (Docker)
+## Getting Started (Universal)
+### 1. Clone the repository
 ```bash
-# Clone the repo (or copy the folder)
-cd "c:/Users/Shivaami_User/Desktop/resume project idea/Resume-ATS"
-
-# Build the image
+# From GitHub
+git clone https://github.com/yourusername/Resume-ATS.git
+cd Resume-ATS
+```
+### 2. Using Docker (recommended for any platform)
+```bash
+# Build the Docker image
 docker build -t ats-resume .
 
 # Run the container
@@ -50,21 +54,26 @@ docker run -p 8501:8501 ats-resume
 ```
 Open your browser at `http://localhost:8501`.
 
-## Quick Start (local Python env)
+### 3. Running locally (Python environment)
 ```bash
+# Create a virtual environment
 python -m venv .venv
-.venv\Scripts\activate   # on Windows PowerShell
+# Activate (Windows PowerShell)
+.venv\Scripts\Activate.ps1
+# Install dependencies
 pip install -r requirements.txt
+# Launch the app
 streamlit run app.py
 ```
+The app will be available at `http://localhost:8501`.
 
 ## Usage Tips
 - Use PDFs that contain selectable text (not scanned images).
-- The more keywords/skills you actually have in the resume, the higher the score.
-- Look at the *Improvement Tips* section for concrete actions.
+- The more relevant keywords/skills you actually have in the resume, the higher the score.
+- Review the *Improvement Tips* section for concrete actions.
 
 ## Contributing
-Feel free to fork, open issues, or submit pull requests. The code is intentionally modular – you can extend the skill list, add new visualisations, or plug in a different NLP model.
+Feel free to fork, open issues, or submit pull requests. The code is modular – you can extend the skill list, add new visualisations, or plug in a different NLP model.
 
 ---
 *Built with love for job‑seekers and recruiters alike.*
