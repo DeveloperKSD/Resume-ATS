@@ -1,6 +1,8 @@
-<div align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=26&pause=1000&color=00FF00&background=020208&center=true&vCenter=true&width=500&height=60&lines=HI GUYS...;LETS START THIS ...;SYSTEM+READY+v2.16" alt="Typing SVG" />
-</div>
+> ### 📦 MINIMUM SYSTEM REQUIREMENTS
+> * **OPERATING ARCHITECTURE:** Docker Client Engine v20.10+ OR Local Python v3.11 Base Interpreter
+> * **MEMORY CACHE ALLOCATION:** 64.0 MB of unallocated RAM shadow buffer
+> * **GRAPHICS ACCELERATION:** Standard SVGA Core Display (Any modern browser window layer)
+> * **NETWORK BASELINE:** 56K Dial-Up Handshake Capabilities (Only required for initial package flushing)
 
 # ATS Resume Scanner – Simple Overview
 
