@@ -10,7 +10,30 @@
   <img src="https://komarev.com/ghpvc/?username=DeveloperKSD&color=green&style=flat-square&label=TERMINAL+PINGS" alt="System Connection Meter" />
 </div>
 
-[![Live Demo](https://img.shields.io/badge/🖥️_Live_Demo-resume--ats--ksd.streamlit.app-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://resume-ats-ksd.streamlit.app/)
+[![demo](https://img.shields.io/badge/demo-live-black?style=flat-square&logo=streamlit&logoColor=FF4B4B)](https://resume-ats-ksd.streamlit.app/)
+
+
+[![Open App](https://img.shields.io/badge/Open_App-▶_Launch-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://resume-ats-ksd.streamlit.app/)
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white)]()
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)]()
+
+<div align="center">
+  <a href="https://resume-ats-ksd.streamlit.app/">
+    <img src="https://img.shields.io/badge/▶ Launch App-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white"/>
+  </a>
+</div>
+
+<div align="center">
+  <h2>🖥️ Resume ATS Scanner</h2>
+  <a href="https://resume-ats-ksd.streamlit.app/">
+    <img src="https://img.shields.io/badge/Live Demo-Open App →-FF4B4B?style=for-the-badge&logo=streamlit"/>
+  </a>
+  <br/><br/>
+  <img src="https://img.shields.io/badge/Status-Online-brightgreen?style=flat-square"/>
+  <img src="https://img.shields.io/badge/Host-Streamlit Cloud-FF4B4B?style=flat-square&logo=streamlit"/>
+  <img src="https://img.shields.io/badge/Docker-Ready-2496ED?style=flat-square&logo=docker"/>
+</div>
+
 
 
 # ATS Resume Scanner – Simple Overview
