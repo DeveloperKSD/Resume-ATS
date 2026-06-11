@@ -1,4 +1,10 @@
-📥 SYSTEM CONNECTIONS: ![Hits](https://count.getloli.com/get/@your-username?theme=rule34)
+<details>
+<summary><b>📟 Click to expand SYSTEM_INITIALIZATION_LOG.TXT</b></summary>
+
+```bash
+# Core deployment outputs are safely tucked inside here!
+pip install -r requirements.txt
+python app.py
 
 # ATS Resume Scanner – Simple Overview
 
