@@ -1,86 +1,70 @@
-# 📄 ATS Resume Scanner
+# ATS Resume Scanner – Simple Overview
 
-An interactive, high-fidelity **ATS (Applicant Tracking System) Resume Scanner** built with Python and Streamlit. It extracts text from a candidate's resume and a target job description, analyzes them using Natural Language Processing (NLP) techniques, calculates a comprehensive compatibility score, and displays visually stunning dashboards and charts along with actionable feedback.
+## What is this?
+This is a **Streamlit web app** that lets you upload your resume (PDF) and a job description (PDF). It then gives you a clear, easy‑to‑read score showing how well your resume matches the job posting.
 
----
+## Main Features
+- **PDF text extraction** – pulls plain text from both files using **pdfplumber**.
+- **Keyword matching** – compares words in the job description with those in your resume.
+- **Skill detection** – automatically finds technical skills from a large built‑in skill library.
+- **Section detection** – checks if common resume sections (experience, education, projects, etc.) are present.
+- **Readability & numbers** – measures how readable the resume is and whether it contains quantifiable metrics.
+- **Visual dashboards** – bar chart, radar chart and gauge chart (made with **matplotlib**) show the breakdown of scores.
+- **Improvement tips** – suggestions on missing keywords, skills or sections to improve your resume.
+- **Retro Windows 95 UI mode** – optional fun UI that mimics an old Windows 95 desktop.
 
-## 🚀 Features
+## How does it work?
+1. Upload a **resume PDF** and a **job description PDF**.
+2. The app extracts the raw text from each file.
+3. Text is pre‑processed (lower‑casing, punctuation removal, stop‑word filter).
+4. Several analyses are run:
+   - Keyword overlap (35 pts) ✅
+   - Skill overlap (25 pts) ✅
+   - Cosine similarity (20 pts) ✅
+   - TF‑IDF relevance (10 pts) ✅
+   - Presence of common sections (10 pts) ✅
+5. The scores are summed to a total out of 100 and displayed with graphics.
+6. A short report is generated with the overall verdict, detailed tables, and actionable tips.
 
-* **High-Accuracy PDF Parsing**: Uses `pdfplumber` to extract clean text from resumes and job descriptions.
-* **Granular ATS Scoring (out of 100)**:
-  * **Keyword Match (35 pts)**: Compares matching key terms.
-  * **Skills Match (25 pts)**: Identifies specific technology skills matching a built-in library of top industry terms.
-  * **Cosine Similarity (20 pts)**: Performs vocabulary overlap analysis using a Count Vectorizer.
-  * **TF-IDF Relevance (10 pts)**: Computes weighted importance of key matching words relative to the overall document.
-  * **Section Presence (10 pts)**: Scans for critical resume parts (*experience, education, skills, contact, summary, projects, certifications*).
-* **Premium Interactive Dashboards**:
-  * **Score Gauge**: Visual pointer showing the match percentage category (Poor, Moderate, Good, Excellent).
-  * **Radar Chart**: Interactive spider chart mapping the strengths/weaknesses across all five categories.
-  * **Score Breakdown Bar Chart**: Clear horizontal bar comparison of points scored vs maximum possible points.
-* **Actionable Resume Optimization Tips**: Tailored list of recommendations to improve the resume (e.g., missing keywords to add, missing sections to write, and language mirroring hints).
+## Tech Stack
+| Component | Library / Tool | Purpose |
+|-----------|----------------|---------|
+| Web UI | **Streamlit** | Interactive front‑end |
+| PDF parsing | **pdfplumber** | Extract text from PDFs |
+| NLP / similarity | **scikit‑learn** (`CountVectorizer`, `TfidfVectorizer`, `cosine_similarity`) | Keyword & vector analysis |
+| Data handling | **pandas**, **numpy** | Build tables, maths |
+| Charts | **matplotlib** | Bar, radar, gauge, donut charts |
+| Containerisation | **Docker** | Run the app anywhere |
+| Optional extras | **python‑docx** (for future DOCX support) | Document handling |
 
----
+## Quick Start (Docker)
+```bash
+# Clone the repo (or copy the folder)
+cd "c:/Users/Shivaami_User/Desktop/resume project idea/Resume-ATS"
 
-## 🛠️ Tech Stack
+# Build the image
+docker build -t ats-resume .
 
-* **Frontend & Dashboard**: [Streamlit](https://streamlit.io/)
-* **NLP & Text Analysis**: `scikit-learn` (`CountVectorizer`, `TfidfVectorizer`, `cosine_similarity`)
-* **PDF Parsing**: `pdfplumber`
-* **Visualization**: `Matplotlib` (using headless `Agg` backend)
-* **Data Processing**: `Pandas`, `NumPy`
-* **Containerization**: `Docker`
-
----
-
-## 📁 Repository Structure
-
+# Run the container
+docker run -p 8501:8501 ats-resume
 ```
-├── app.py                  # Streamlit dashboard layout and frontend elements
-├── scanner.py              # Core NLP processing and scoring math
-├── charts.py               # Matplotlib gauge, radar, and bar chart generator
-├── requirements.txt        # Python package dependencies
-├── Dockerfile              # Containerization steps
-└── ATS_Scanner_Colab.ipynb # Google Colab Jupyter Notebook implementation
+Open your browser at `http://localhost:8501`.
+
+## Quick Start (local Python env)
+```bash
+python -m venv .venv
+.venv\Scripts\activate   # on Windows PowerShell
+pip install -r requirements.txt
+streamlit run app.py
 ```
 
----
+## Usage Tips
+- Use PDFs that contain selectable text (not scanned images).
+- The more keywords/skills you actually have in the resume, the higher the score.
+- Look at the *Improvement Tips* section for concrete actions.
 
-## ⚙️ Setup and Installation
-
-### Running Locally
-
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/DeveloperKSD/Resume-ATS.git
-   cd Resume-ATS
-   ```
-
-2. **Install Python dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Run the Streamlit application**:
-   ```bash
-   streamlit run app.py
-   ```
-   *The application will launch automatically in your default browser at `http://localhost:8501`.*
+## Contributing
+Feel free to fork, open issues, or submit pull requests. The code is intentionally modular – you can extend the skill list, add new visualisations, or plug in a different NLP model.
 
 ---
-
-## 🐳 Docker Deployment
-
-To build and run the application inside a lightweight container:
-
-1. **Build the Docker Image**:
-   ```bash
-   docker build -t resume-ats .
-   ```
-
-2. **Run the Docker Container**:
-   ```bash
-   docker run -d -p 8501:8501 resume-ats
-   ```
-
-3. **Access the Application**:
-   Open your browser and navigate to `http://localhost:8501`.
+*Built with love for job‑seekers and recruiters alike.*
