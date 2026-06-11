@@ -1,7 +1,8 @@
 # ATS Resume Scanner – Simple Overview
 
 ## What is this?
-This is a **Streamlit web app** that lets you upload your resume (PDF) and a job description (PDF). It then gives you a clear, easy‑to‑read score showing how well your resume matches the job posting.
+This is a **Streamlit web app** that lets you upload your resume (PDF) and a job description (PDF or text). It then gives you a clear, easy‑to‑read score showing how well your resume matches the job posting, or as a recruiter lets u compsre it to ur job description.
+It also reviews standalone resume for job seeker.
 
 ## Main Features
 - **PDF text extraction** – pulls plain text from both files using **pdfplumber**.
@@ -11,7 +12,7 @@ This is a **Streamlit web app** that lets you upload your resume (PDF) and a job
 - **Readability & numbers** – measures how readable the resume is and whether it contains quantifiable metrics.
 - **Visual dashboards** – bar chart, radar chart and gauge chart (made with **matplotlib**) show the breakdown of scores.
 - **Improvement tips** – suggestions on missing keywords, skills or sections to improve your resume.
-- **Retro Windows 95 UI mode** – optional fun UI that mimics an old Windows 95 desktop.
+- **Retro Windows 95 UI mode** – fun UI that mimics an old Windows 95 desktop.
 
 ## How does it work?
 1. Upload a **resume PDF** and a **job description PDF**.
@@ -41,7 +42,7 @@ This is a **Streamlit web app** that lets you upload your resume (PDF) and a job
 ### 1. Clone the repository
 ```bash
 # From GitHub
-git clone https://github.com/yourusername/Resume-ATS.git
+git clone https://github.com/DeveloperKSD/Resume-ATS.git
 cd Resume-ATS
 ```
 ### 2. Using Docker (recommended for any platform)
@@ -56,14 +57,18 @@ Open your browser at `http://localhost:8501`.
 
 ### 3. Running locally (Python environment)
 ```bash
-# Create a virtual environment
+
+can skip first two steps and skip to installing dependencies
+# Create a virtual environment (optional)
 python -m venv .venv
-# Activate (Windows PowerShell)
+# Activate (Windows PowerShell) (optional)
 .venv\Scripts\Activate.ps1
 # Install dependencies
 pip install -r requirements.txt
 # Launch the app
 streamlit run app.py
+or
+python -m streamlit run app.py
 ```
 The app will be available at `http://localhost:8501`.
 
