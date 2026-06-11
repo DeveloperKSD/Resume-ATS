@@ -1,7 +1,6 @@
 """
 scanner.py — Enhanced ATS analysis logic
-New: bigram/phrase matching, readability score, keyword density,
-     action verb detection, quantification score, ATS red flags.
+Optimized for 2026 deployment with dual-mode evaluation architecture.
 """
 
 import re
@@ -16,7 +15,6 @@ from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from collections import Counter
 
-
 # ─────────────────────────────────────────────
 # PDF EXTRACTION
 # ─────────────────────────────────────────────
@@ -30,9 +28,8 @@ def extract_text_from_pdf(pdf_file) -> str:
                 text += page_text + "\n"
     return text.strip()
 
-
 # ─────────────────────────────────────────────
-# PREPROCESSING
+# PREPROCESSING & DICTS
 # ─────────────────────────────────────────────
 
 STOPWORDS = {
@@ -45,32 +42,6 @@ STOPWORDS = {
     'via','i','my','me','about','all','other','any','they','he','she',
     'who','which','what','when','how','us','am','very','just','use','using'
 }
-
-def preprocess(text: str) -> str:
-    text = text.lower()
-    text = re.sub(r'[^\w\s]', ' ', text)
-    text = re.sub(r'\s+', ' ', text)
-    return text.strip()
-
-def extract_keywords(text: str) -> set:
-    words = set(preprocess(text).split())
-    return {w for w in words if len(w) > 2 and w not in STOPWORDS}
-
-def extract_bigrams(text: str) -> set:
-    """Extract meaningful 2-word phrases from text."""
-    words = preprocess(text).split()
-    filtered = [w for w in words if w not in STOPWORDS and len(w) > 2]
-    return {f"{filtered[i]} {filtered[i+1]}" for i in range(len(filtered)-1)}
-
-def keyword_frequency(text: str, keywords: set) -> dict:
-    """Count how many times each keyword appears in text."""
-    text_lower = text.lower()
-    return {kw: text_lower.split().count(kw) for kw in keywords}
-
-
-# ─────────────────────────────────────────────
-# TECH SKILLS LIBRARY
-# ─────────────────────────────────────────────
 
 TECH_SKILLS = {
     'python','java','javascript','typescript','c++','c#','ruby','go','rust',
@@ -86,15 +57,6 @@ TECH_SKILLS = {
     'selenium','playwright','pytest','junit','jest','cypress',
 }
 
-def extract_skills(text: str) -> set:
-    text_lower = text.lower()
-    return {skill for skill in TECH_SKILLS if skill in text_lower}
-
-
-# ─────────────────────────────────────────────
-# SECTION DETECTION
-# ─────────────────────────────────────────────
-
 SECTIONS = {
     'experience'     : r'\b(experience|work history|employment|work experience)\b',
     'education'      : r'\b(education|degree|university|college|bachelor|master|phd|b\.?sc|m\.?sc)\b',
@@ -105,58 +67,6 @@ SECTIONS = {
     'certifications' : r'\b(certifications|certificates|credentials|courses)\b',
 }
 
-def detect_sections(text: str) -> list:
-    return [name for name, pattern in SECTIONS.items()
-            if re.search(pattern, text.lower())]
-
-
-# ─────────────────────────────────────────────
-# READABILITY (Flesch-Kincaid approximation)
-# ─────────────────────────────────────────────
-
-def readability_score(text: str) -> dict:
-    """
-    Returns Flesch Reading Ease score and grade label.
-    Higher = easier to read. ATS-friendly zone: 60-80.
-    """
-    sentences = re.split(r'[.!?]+', text)
-    sentences = [s.strip() for s in sentences if s.strip()]
-    words     = re.findall(r'\b\w+\b', text.lower())
-    syllables = sum(_count_syllables(w) for w in words)
-
-    if not sentences or not words:
-        return {'score': 0, 'label': 'N/A', 'word_count': 0, 'avg_sentence_len': 0}
-
-    asl  = len(words) / len(sentences)          # avg sentence length
-    asw  = syllables / len(words)               # avg syllables per word
-    fre  = 206.835 - (1.015 * asl) - (84.6 * asw)
-    fre  = max(0, min(100, fre))
-
-    if   fre >= 70: label = "Easy"
-    elif fre >= 50: label = "Standard"
-    elif fre >= 30: label = "Complex"
-    else:           label = "Very Complex"
-
-    return {
-        'score'            : round(fre, 1),
-        'label'            : label,
-        'word_count'       : len(words),
-        'sentence_count'   : len(sentences),
-        'avg_sentence_len' : round(asl, 1),
-    }
-
-def _count_syllables(word: str) -> int:
-    word = word.lower()
-    count = len(re.findall(r'[aeiou]+', word))
-    if word.endswith('e') and count > 1:
-        count -= 1
-    return max(1, count)
-
-
-# ─────────────────────────────────────────────
-# ACTION VERBS
-# ─────────────────────────────────────────────
-
 ACTION_VERBS = {
     'achieved','improved','trained','managed','created','developed','designed',
     'implemented','launched','delivered','led','built','increased','reduced',
@@ -165,232 +75,206 @@ ACTION_VERBS = {
     'engineered','scaled','migrated','integrated','generated','directed',
 }
 
+def preprocess(text: str) -> str:
+    text = text.lower()
+    text = re.sub(r'[^\w\s]', ' ', text)
+    text = re.sub(r'\s+', ' ', text)
+    return text.strip()
+
+def extract_keywords(text: str) -> set:
+    words = set(preprocess(text).split())
+    return {w for w in words if len(w) > 2 and w not in STOPWORDS}
+
+def extract_bigrams(text: str) -> set:
+    words = preprocess(text).split()
+    filtered = [w for w in words if w not in STOPWORDS and len(w) > 2]
+    return {f"{filtered[i]} {filtered[i+1]}" for i in range(len(filtered)-1)}
+
+def extract_skills(text: str) -> set:
+    text_lower = text.lower()
+    return {skill for skill in TECH_SKILLS if skill in text_lower}
+
+def detect_sections(text: str) -> list:
+    return [name for name, pattern in SECTIONS.items() if re.search(pattern, text.lower())]
+
 def detect_action_verbs(text: str) -> dict:
     words_lower = set(re.findall(r'\b\w+\b', text.lower()))
-    found   = words_lower & ACTION_VERBS
+    found = words_lower & ACTION_VERBS
     missing = ACTION_VERBS - words_lower
     return {'found': sorted(found), 'missing': sorted(list(missing)[:15])}
 
-
-# ─────────────────────────────────────────────
-# QUANTIFICATION DETECTION
-# ─────────────────────────────────────────────
-
 def quantification_score(text: str) -> dict:
-    """Detect numbers/percentages — quantified bullets score better."""
-    numbers  = re.findall(r'\b\d+[\.,]?\d*\s*(%|x|k|m|b|hrs?|users?|months?)?\b', text.lower())
+    numbers = re.findall(r'\b\d+[\.,]?\d*\s*(%|x|k|m|b|hrs?|users?|months?)?\b', text.lower())
     percents = re.findall(r'\d+\s*%', text)
-    total    = len(numbers)
-    score    = min(100, total * 8)          # rough: 12+ numbers ≈ 100%
+    total = len(numbers)
+    score = min(100, total * 8)
     return {
-        'count'    : total,
-        'percents' : len(percents),
-        'score'    : score,
-        'label'    : 'Strong' if score >= 60 else 'Moderate' if score >= 30 else 'Weak',
+        'count': total,
+        'percents': len(percents),
+        'score': score,
+        'label': 'Strong' if score >= 60 else 'Moderate' if score >= 30 else 'Weak',
     }
 
+def readability_score(text: str) -> dict:
+    sentences = [s.strip() for s in re.split(r'[.!?]+', text) if s.strip()]
+    words = re.findall(r'\b\w+\b', text.lower())
+    
+    def _count_syllables(w):
+        c = len(re.findall(r'[aeiou]+', w))
+        if w.endswith('e') and c > 1: c -= 1
+        return max(1, c)
 
-# ─────────────────────────────────────────────
-# ATS RED FLAGS
-# ─────────────────────────────────────────────
+    syllables = sum(_count_syllables(w) for w in words)
+    if not sentences or not words:
+        return {'score': 0, 'label': 'N/A', 'word_count': 0, 'avg_sentence_len': 0, 'sentence_count': 0}
+
+    asl = len(words) / len(sentences)
+    asw = syllables / len(words)
+    fre = 206.835 - (1.015 * asl) - (84.6 * asw)
+    fre = max(0, min(100, fre))
+
+    return {
+        'score': round(fre, 1),
+        'label': "Easy" if fre >= 70 else "Standard" if fre >= 50 else "Complex" if fre >= 30 else "Very Complex",
+        'word_count': len(words),
+        'sentence_count': len(sentences),
+        'avg_sentence_len': round(asl, 1),
+    }
 
 def detect_red_flags(text: str) -> list:
     flags = []
     if len(re.findall(r'[^\x00-\x7F]', text)) > 20:
-        flags.append("Non-ASCII characters detected — may confuse ATS parsers.")
-    if re.search(r'(table|column|row|cell)', text.lower()):
-        flags.append("Possible table layout — ATS often mis-parses multi-column resumes.")
+        flags.append("Non-ASCII characters detected — may confuse legacy ATS models.")
+    if re.search(r'(table|column|row|cell)', text.lower()) and len(re.findall(r'\n', text)) < 40:
+        flags.append("Potential multi-column layout risk — content lines could be parsed incorrectly.")
     if len(text) < 300:
-        flags.append("Resume text is very short — possible parsing failure or image-based PDF.")
+        flags.append("Critical low length count — possible flattened image layer PDF.")
     if not re.search(r'\b[\w.-]+@[\w.-]+\.\w+\b', text):
-        flags.append("No email address detected in parsed text.")
-    if re.search(r'(header|footer)', text.lower()):
-        flags.append("Header/footer text detected — ATS may ignore contact info in headers.")
-    if len(re.findall(r'\b(i am|i have|i built|i created)\b', text.lower())) > 5:
-        flags.append("Excessive first-person pronouns — prefer third-person implied style.")
+        flags.append("Missing or un-parsable email address profile.")
     return flags
 
-
 # ─────────────────────────────────────────────
-# MAIN ATS ANALYSIS
+# HYBRID COMPARISON ANALYSIS MODELS
 # ─────────────────────────────────────────────
 
-def analyze(resume_text: str, job_text: str) -> dict:
-    """
-    Full ATS analysis. Returns a dict with all scores and metadata.
-
-    Score breakdown (total = 100):
-      - Keyword Match    : 35 pts
-      - Skills Match     : 25 pts
-      - Cosine Similarity: 20 pts
-      - TF-IDF Relevance : 10 pts
-      - Section Presence : 10 pts
-    """
+def analyze(resume_text: str, job_text: str = None) -> dict:
     resume_clean = preprocess(resume_text)
-    job_clean    = preprocess(job_text)
-
-    # ── 1. Keyword Match (35 pts) ──────────────
-    job_kw      = extract_keywords(job_clean)
-    resume_kw   = extract_keywords(resume_clean)
-    matched_kw  = job_kw & resume_kw
-    missing_kw  = job_kw - resume_kw
-    kw_ratio    = len(matched_kw) / len(job_kw) if job_kw else 0
-    kw_score    = round(kw_ratio * 35, 2)
-
-    # ── 2. Skills Match (25 pts) ───────────────
-    job_skills     = extract_skills(job_text)
-    resume_skills  = extract_skills(resume_text)
-    matched_skills = job_skills & resume_skills
-    missing_skills = job_skills - resume_skills
-    skill_ratio    = len(matched_skills) / len(job_skills) if job_skills else 0
-    skill_score    = round(skill_ratio * 25, 2)
-
-    # ── 3. Cosine Similarity (20 pts) ─────────
-    cv          = CountVectorizer()
-    cv_matrix   = cv.fit_transform([resume_clean, job_clean])
-    cos_sim     = cosine_similarity(cv_matrix)[0][1]
-    cos_score   = round(cos_sim * 20, 2)
-
-    # ── 4. TF-IDF Relevance (10 pts) ──────────
-    tfidf        = TfidfVectorizer()
-    tfidf_matrix = tfidf.fit_transform([resume_clean, job_clean])
-    tfidf_sim    = cosine_similarity(tfidf_matrix)[0][1]
-    tfidf_score  = round(tfidf_sim * 10, 2)
-
-    # ── 5. Section Presence (10 pts) ──────────
     found_sections = detect_sections(resume_text)
-    section_score  = round((len(found_sections) / len(SECTIONS)) * 10, 2)
+    readability = readability_score(resume_text)
+    action_verbs = detect_action_verbs(resume_text)
+    quantification = quantification_score(resume_text)
+    red_flags = detect_red_flags(resume_text)
+    resume_skills = extract_skills(resume_text)
 
-    total        = kw_score + skill_score + cos_score + tfidf_score + section_score
-    score_vector = np.array([kw_score, skill_score, cos_score, tfidf_score, section_score])
+    if job_text and job_text.strip():
+        job_clean = preprocess(job_text)
+        
+        job_kw = extract_keywords(job_clean)
+        resume_kw = extract_keywords(resume_clean)
+        matched_kw = job_kw & resume_kw
+        missing_kw = job_kw - resume_kw
+        kw_ratio = len(matched_kw) / len(job_kw) if job_kw else 0
+        kw_score = round(kw_ratio * 35, 2)
 
-    # ── Score DataFrame ────────────────────────
-    df = pd.DataFrame({
-        'Component'  : ['Keyword Match', 'Skills Match', 'Cosine Similarity', 'TF-IDF Relevance', 'Section Presence'],
-        'Score'      : score_vector,
-        'Max'        : [35, 25, 20, 10, 10],
-        'Percentage' : np.round(score_vector / np.array([35, 25, 20, 10, 10]) * 100, 1)
-    })
+        job_skills = extract_skills(job_text)
+        matched_skills = job_skills & resume_skills
+        missing_skills = job_skills - resume_skills
+        skill_ratio = len(matched_skills) / len(job_skills) if job_skills else 0
+        skill_score = round(skill_ratio * 25, 2)
 
-    # ── Bigram / Phrase Analysis ───────────────
-    job_bigrams    = extract_bigrams(job_text)
-    resume_bigrams = extract_bigrams(resume_text)
-    matched_phrases = sorted(job_bigrams & resume_bigrams)
-    missing_phrases = sorted(job_bigrams - resume_bigrams)
+        cv = CountVectorizer()
+        try:
+            cv_matrix = cv.fit_transform([resume_clean, job_clean])
+            cos_sim = float(cosine_similarity(cv_matrix)[0][1])
+        except Exception:
+            cos_sim = 0.0
+        cos_score = round(cos_sim * 20, 2)
 
-    # ── Keyword Frequency (for heatmap) ───────
-    kw_freq_resume = keyword_frequency(resume_text, matched_kw)
-    kw_freq_jd     = keyword_frequency(job_text, matched_kw)
+        tfidf = TfidfVectorizer()
+        try:
+            tfidf_matrix = tfidf.fit_transform([resume_clean, job_clean])
+            tfidf_sim = float(cosine_similarity(tfidf_matrix)[0][1])
+        except Exception:
+            tfidf_sim = 0.0
+        tfidf_score = round(tfidf_sim * 10, 2)
 
-    # ── Bonus analytics ───────────────────────
-    readability     = readability_score(resume_text)
-    action_verbs    = detect_action_verbs(resume_text)
-    quantification  = quantification_score(resume_text)
-    red_flags       = detect_red_flags(resume_text)
+        section_score = round((len(found_sections) / len(SECTIONS)) * 10, 2)
+        total = kw_score + skill_score + cos_score + tfidf_score + section_score
+        score_vector = np.array([kw_score, skill_score, cos_score, tfidf_score, section_score])
 
-    # ── Top TF-IDF terms from JD ───────────────
-    try:
-        tfidf2     = TfidfVectorizer(max_features=30, stop_words='english')
-        tfidf2.fit([job_clean])
-        top_jd_terms = tfidf2.get_feature_names_out().tolist()
-    except Exception:
-        top_jd_terms = []
+        df_scores = pd.DataFrame({
+            'Component': ['Keyword Match', 'Skills Match', 'Cosine Similarity', 'TF-IDF Relevance', 'Section Presence'],
+            'Score': score_vector,
+            'Max': [35, 25, 20, 10, 10],
+            'Percentage': np.round(score_vector / np.array([35, 25, 20, 10, 10]) * 100, 1)
+        })
 
-    return {
-        # Core scores
-        'total'             : round(float(total), 2),
-        'score_df'          : df,
-        'score_vector'      : score_vector,
+        job_bigrams = extract_bigrams(job_text)
+        resume_bigrams = extract_bigrams(resume_text)
+        matched_phrases = sorted(job_bigrams & resume_bigrams)
+        missing_phrases = sorted(job_bigrams - resume_bigrams)
 
-        # Keyword
-        'kw_score'          : kw_score,
-        'kw_match_pct'      : round(kw_ratio * 100, 1),
-        'matched_keywords'  : sorted(matched_kw),
-        'missing_keywords'  : sorted(missing_kw),
-        'kw_freq_resume'    : kw_freq_resume,
-        'kw_freq_jd'        : kw_freq_jd,
+        try:
+            tfidf2 = TfidfVectorizer(max_features=30, stop_words='english')
+            tfidf2.fit([job_clean])
+            top_jd_terms = tfidf2.get_feature_names_out().tolist()
+        except Exception:
+            top_jd_terms = []
 
-        # Skills
-        'skill_score'       : skill_score,
-        'skill_match_pct'   : round(skill_ratio * 100, 1),
-        'matched_skills'    : sorted(matched_skills),
-        'missing_skills'    : sorted(missing_skills),
+        return {
+            'has_jd': True, 'total': round(float(total), 2), 'score_df': df_scores, 'score_vector': score_vector,
+            'kw_match_pct': round(kw_ratio * 100, 1), 'matched_keywords': sorted(matched_kw), 'missing_keywords': sorted(missing_kw),
+            'skill_match_pct': round(skill_ratio * 100, 1), 'matched_skills': sorted(matched_skills), 'missing_skills': sorted(missing_skills),
+            'cos_sim_pct': round(cos_sim * 100, 1), 'tfidf_sim_pct': round(tfidf_sim * 100, 1),
+            'found_sections': found_sections, 'matched_phrases': matched_phrases[:30], 'missing_phrases': missing_phrases[:30],
+            'readability': readability, 'action_verbs': action_verbs, 'quantification': quantification, 'red_flags': red_flags, 'top_jd_terms': top_jd_terms
+        }
 
-        # Similarity
-        'cos_score'         : cos_score,
-        'cos_sim_pct'       : round(float(cos_sim) * 100, 1),
-        'tfidf_score'       : tfidf_score,
-        'tfidf_sim_pct'     : round(float(tfidf_sim) * 100, 1),
+    else:
+        sec_score = (len(found_sections) / len(SECTIONS)) * 30
+        vrb_score = min(30, len(action_verbs['found']) * 4)
+        quant_score = min(25, quantification['score'] * 0.25)
+        read_score = 15 if readability['score'] >= 50 else 8
+        
+        total = sec_score + vrb_score + quant_score + read_score
+        score_vector = np.array([sec_score, vrb_score, quant_score, read_score, 0.0])
 
-        # Sections
-        'section_score'     : section_score,
-        'found_sections'    : found_sections,
+        df_scores = pd.DataFrame({
+            'Component': ['Structural Completeness', 'Action Verb Density', 'Quantifiable Metrics', 'Readability Tier', 'Context Matching'],
+            'Score': score_vector, 'Max': [30, 30, 25, 15, 0],
+            'Percentage': [round((sec_score/30)*100,1), round((vrb_score/30)*100,1), round((quant_score/25)*100,1), round((read_score/15)*100,1), 0.0]
+        })
 
-        # Phrases
-        'matched_phrases'   : matched_phrases[:30],
-        'missing_phrases'   : missing_phrases[:30],
-
-        # Bonus
-        'readability'       : readability,
-        'action_verbs'      : action_verbs,
-        'quantification'    : quantification,
-        'red_flags'         : red_flags,
-        'top_jd_terms'      : top_jd_terms,
-    }
-
+        return {
+            'has_jd': False, 'total': round(float(total), 2), 'score_df': df_scores, 'score_vector': score_vector,
+            'matched_skills': sorted(resume_skills), 'found_sections': found_sections, 'readability': readability,
+            'action_verbs': action_verbs, 'quantification': quantification, 'red_flags': red_flags,
+            'missing_keywords': [], 'missing_skills': [], 'matched_keywords': [], 'top_jd_terms': [], 'matched_phrases': [], 'missing_phrases': []
+        }
 
 def verdict(score: float) -> tuple:
-    if   score >= 80: return ("✅", "Excellent Match",  "#22c55e")
-    elif score >= 60: return ("🟡", "Good Match",       "#eab308")
-    elif score >= 40: return ("🟠", "Moderate Match",   "#f97316")
-    else:             return ("🔴", "Poor Match",       "#ef4444")
-
-
-# ─────────────────────────────────────────────
-# REPORT GENERATION
-# ─────────────────────────────────────────────
+    if score >= 80: return ("✅", "Premium Quality", "#00AA00")
+    elif score >= 60: return ("🟡", "Compliant Tier", "#eab308")
+    elif score >= 40: return ("🟠", "Intermediate Level", "#f97316")
+    else: return ("🔴", "Critical Gaps", "#FF0000")
 
 def generate_report(results: dict) -> str:
-    """Generate a plain-text improvement report for download."""
     emoji, label, _ = verdict(results['total'])
     lines = [
         "=" * 60,
-        "  ATS RESUME SCAN REPORT",
+        "        ATS PIPELINE PRO DIAGNOSTICS REPORT (VINTAGE ENGINE)",
         "=" * 60,
-        f"\nOVERALL SCORE : {results['total']:.1f}/100 — {label}",
-        f"\nSCORE BREAKDOWN:",
+        f"\nOVERALL PERFORMANCE SCORE : {results['total']:.1f}/100 — {label} {emoji}",
+        "\nMATRIX COMPONENTS ANALYSIS:",
     ]
     for _, row in results['score_df'].iterrows():
-        lines.append(f"  {row['Component']:<22} {row['Score']:.1f}/{row['Max']}  ({row['Percentage']:.0f}%)")
-
+        lines.append(f"  - {row['Component']:<25} : {row['Score']:.1f}/{row['Max']} ({row['Percentage']:.0f}%)")
     lines += [
-        f"\nREADABILITY   : {results['readability']['score']} ({results['readability']['label']})",
-        f"WORD COUNT    : {results['readability']['word_count']}",
-        f"QUANTIFICATION: {results['quantification']['label']} ({results['quantification']['count']} numbers found)",
-        "",
-        "MATCHED SKILLS :",
-        "  " + ", ".join(results['matched_skills']) if results['matched_skills'] else "  None",
-        "",
-        "MISSING SKILLS :",
-        "  " + ", ".join(results['missing_skills']) if results['missing_skills'] else "  None",
-        "",
-        "ACTION VERBS USED :",
-        "  " + ", ".join(results['action_verbs']['found']) if results['action_verbs']['found'] else "  None",
-        "",
-        "ATS RED FLAGS :",
+        "\n" + "-" * 40,
+        "STRUCTURAL & TEXT MATRICES",
+        "-" * 40,
+        f"Readability Index    : {results['readability']['score']} ({results['readability']['label']})",
+        f"Total Word Tokens    : {results['readability']['word_count']}",
     ]
-    for flag in results['red_flags']:
-        lines.append(f"  ⚠ {flag}")
-    if not results['red_flags']:
-        lines.append("  None detected.")
-
-    lines += [
-        "",
-        "TOP JD TERMS NOT IN RESUME :",
-        "  " + ", ".join(results['missing_keywords'][:20]),
-        "",
-        "=" * 60,
-        "Generated by ATS Resume Scanner",
-        "=" * 60,
-    ]
+    lines.append("\n" + "=" * 60)
     return "\n".join(lines)
