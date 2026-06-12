@@ -285,7 +285,7 @@ st.markdown("<br/>", unsafe_allow_html=True)
 top_c1, top_c2 = st.columns([3, 1])
 
 with top_c1:
-    st.markdown("<h1 class='rainbow-text' style='margin:0; font-size:46px;'>ATS RESUME PIPELINE PRO '97</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 class='rainbow-text' style='margin:0; font-size:46px;'>ATS RESUME APP '97</h1>", unsafe_allow_html=True)
     st.markdown("<p style='font-weight:bold; margin-top:4px;'>Maximum capability binary validation environment framework.</p>", unsafe_allow_html=True)
 
 with top_c2:
